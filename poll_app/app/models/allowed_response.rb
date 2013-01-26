@@ -4,6 +4,8 @@ class AllowedResponse < ActiveRecord::Base
   belongs_to :poll
   has_many :responses
 
+  validates :allowed_response, :poll_id, :presence => true
+
 
 
 

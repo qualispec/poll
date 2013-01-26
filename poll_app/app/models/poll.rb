@@ -5,21 +5,21 @@ class Poll < ActiveRecord::Base
   has_many :allowed_responses
   has_many :responses, :through => :allowed_responses
 
-  
+  validates :question, :user_id, :presence => true
 
-  def submitter
-    self.user_id
+  def results
+    allowed_responses = AllowedResponse.where(:poll_id => self.id)
+
+    allowed_responses.each do |ar|
+      answers = Response.where(:allowed_response_id => ar.id)
+      puts "Answer qty: #{answers.length} #{ar.allowed_response}"
+    end
+    #allowed_response_id
   end
 
 
-
-
-
-  # def self.add(url_id, tag_word)
-  #   tag_words = ["news", "sports", "catz", "palo alto", "ruby", "slacklining"]
-  #   t = Tag.new
-  #   t.url_id = url_id
-  #   t.tag_word = tag_word if tag_words.include?(tag_word)
-  #   t.save!
+  # def submitter
+  #   self.user_id
   # end
+
 end

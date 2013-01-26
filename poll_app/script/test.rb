@@ -9,7 +9,7 @@ def run
     puts "What would you like to do?"
     puts "1. Generate a poll"
     puts "2. Take a poll"
-    puts "3. See my submitted polls"
+    puts "3. Poll results"
     puts "4. See my responses to polls"
     print " > "
 
@@ -21,9 +21,9 @@ def run
     when 2
       take_poll(current_user)
     when 3
-      user_polls(current_user)
+      poll_results
     when 4
-      user_responses(current_user)
+#      user_responses(current_user)
     end
 
   end
@@ -63,12 +63,17 @@ def generate_poll(user)
   poll
 end
 
+  def print_polls
+    Poll.all.each_with_index do |poll, i|
+    puts "#{i + 1}. #{poll.question}"
+    end
+  end
+
   def take_poll(user)
 
     puts "Which poll would you like to take? Enter number:"
-    Poll.all.each_with_index do |poll, i|
-      puts "#{i + 1}. #{poll.question}"
-    end
+    print " > "
+    print_polls
 
     choice = gets.chomp.to_i
 
@@ -76,10 +81,10 @@ end
 
     puts poll.question
 
-    allowed_responses = AllowedResponse.where(:poll_id => choice).pluck(:allowed_response)
+    allowed_responses = AllowedResponse.where(:poll_id => choice)
 
-    allowed_responses.each_with_index do |allowed_response, i|
-      puts "#{i + 1}. #{allowed_response}"
+    allowed_responses.each do |allowed_response|
+      puts "#{allowed_response.id}. #{allowed_response.allowed_response}"
     end
 
     puts "What is your response?"
@@ -95,11 +100,19 @@ end
 
   end
 
-  def user_polls(user)
-    user.my_polls
-  end
+def poll_results
 
+  puts "Which poll would you like to see results for? Enter number:"
+  print " > "
+  print_polls
 
+  choice = gets.chomp.to_i
+
+  poll = Poll.find(choice)
+
+  poll.results
+
+end
 
 
 run
