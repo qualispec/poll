@@ -8,13 +8,13 @@ class Poll < ActiveRecord::Base
   validates :question, :user_id, :presence => true
 
   def results
-    allowed_responses = AllowedResponse.where(:poll_id => self.id)
 
-    allowed_responses.each do |ar|
-      answers = Response.where(:allowed_response_id => ar.id)
+    Poll.includes(:)
+
+    self.allowed_responses.each do |ar|
+      answers = ar.responses
       puts "Answer qty: #{answers.length} #{ar.allowed_response}"
     end
-    #allowed_response_id
   end
 
 

@@ -1,5 +1,3 @@
-
-
 def run
 
     current_user = get_user
@@ -88,31 +86,27 @@ end
     end
 
     puts "What is your response?"
-
     response = gets.chomp.to_i
-
     r = Response.create(
       :user_id => user.id,
       :poll_id => poll.id,
       :allowed_response_id => response)
-
     p r.errors.full_messages
-
   end
 
-def poll_results
+  def poll_results
 
-  puts "Which poll would you like to see results for? Enter number:"
-  print " > "
-  print_polls
+    puts "Which poll would you like to see results for? Enter number:"
+    print " > "
+    print_polls
 
-  choice = gets.chomp.to_i
+    choice = gets.chomp.to_i
 
-  poll = Poll.find(choice)
+    poll = Poll.find(choice)
 
-  poll.results
+    poll.results
 
-end
+  end
 
 
 run
