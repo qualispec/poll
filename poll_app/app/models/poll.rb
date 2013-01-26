@@ -9,11 +9,11 @@ class Poll < ActiveRecord::Base
 
   def results
 
-    Poll.includes(:)
+ #   Poll.includes(:)
 
-    self.allowed_responses.each do |ar|
-      answers = ar.responses
-      puts "Answer qty: #{answers.length} #{ar.allowed_response}"
+    self.allowed_responses.each do |allowed_response|
+      answers = allowed_response.responses
+      puts "Answer qty: #{answers.length} #{allowed_response.allowed_response}"
     end
   end
 
